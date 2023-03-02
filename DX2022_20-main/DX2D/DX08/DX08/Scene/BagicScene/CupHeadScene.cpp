@@ -31,6 +31,11 @@ CupHeadScene::CupHeadScene()
 	_slider->SetPostion({ CENTER_X, CENTER_Y - 100 });
 
 	// _button->SetEvent(std::bind(&CupHeadScene::Save, this));
+	_renderTarget = make_shared <RenderTarget>();
+	_rtvQuad = make_shared<Quad>(CENTER);
+	_rtvQuad->SetSRV(_renderTarget->GetSRV());
+	_rtvQuad->GetTransform()->SetPosition(CENTER);
+	_rtvQuad->Update();
 }
 
 CupHeadScene::~CupHeadScene()
@@ -92,7 +97,11 @@ void CupHeadScene::Update()
 
 void CupHeadScene::PreRender()
 {
+	//_bg->Render();
+	_renderTarget->Set();
 	_bg->Render();
+	_monster->Render();
+	_player->Render();
 }
 
 void CupHeadScene::PostRender()
@@ -120,8 +129,9 @@ void CupHeadScene::PostRender()
 
 void CupHeadScene::Render()
 {
-	_monster->Render();
-	_player->Render();
+	//_monster->Render();
+	//_player->Render();
+	_rtvQuad->Render();
 }
 
 void CupHeadScene::Save()
