@@ -39,4 +39,3 @@ private:
 	vector<ItemInfo> _itemInfo;
 	shared_ptr<tinyxml2::XMLDocument> _document;
 };
-
