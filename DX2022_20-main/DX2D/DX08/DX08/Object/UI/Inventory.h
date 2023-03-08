@@ -16,4 +16,3 @@ private:
 	vector<shared_ptr<Slot>> _slots;
 	vector<ItemInfo> _info;
 };
-
