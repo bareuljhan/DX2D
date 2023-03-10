@@ -54,6 +54,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui_ImplDX11_Init(DEVICE.Get(), DC.Get());
 
     DirectWrite::Create();
+    DataManager::Create();
     StateManager::Create();
     InputManager::Create();
     Timer::Create();
@@ -63,7 +64,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Audio::Create();
     Camera::Create();
     SceneManager::Create();
-    DataManager::Create();
 
     shared_ptr<Program> program = make_shared<Program>();
 
@@ -87,7 +87,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    DataManager::Delete();
     SceneManager::Delete();
     Camera::Delete();
     Audio::Delete();
@@ -97,6 +96,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Timer::Delete();
     InputManager::Delete();
     StateManager::Delete();
+    DataManager::Delete();
     DirectWrite::Delete();
 
     ImGui_ImplDX11_Shutdown();

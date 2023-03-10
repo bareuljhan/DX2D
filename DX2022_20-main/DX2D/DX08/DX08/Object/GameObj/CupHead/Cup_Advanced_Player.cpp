@@ -57,7 +57,7 @@ void Cup_Advanced_Player::Shot()
 		}
 
 		bullet->Enable();
-		bullet->SetPostion(_muzzle->GetWorldPos());
+		bullet->SetPosition(_muzzle->GetWorldPos());
 		bullet->Fire(dir);
 	}
 }

@@ -16,6 +16,8 @@ SceneManager* SceneManager::_instance = nullptr;
 
 SceneManager::SceneManager()
 {
+	DATA_M->LoadItemInfo();
+
 	_sceneTable["SpriteScene"] = make_shared<SpriteScene>();
 	_sceneTable["SolarSystemScene"] = make_shared<SolarSystemScene>();
 	_sceneTable["CupHeadScene"] = make_shared<CupHeadScene>();

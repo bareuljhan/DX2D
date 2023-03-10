@@ -37,7 +37,12 @@
 
 #define SCENE SceneManager::GetInstance()
 
+#define DATA_M DataManager::GetInstance()
+
 #define ASSERT(hr) assert(SUCCEEDED(hr))
+
+// ÆùÆ®
+#define FONT_YOON L"Ownglyph 2022 UWY Yoon Yeong"
 
 using CallBack = std::function<void()>;
 using CallBack_String = std::function<void(string)>;
@@ -63,6 +68,15 @@ struct ItemInfo
 	ItemInfo(string name, int price, int atk, int def, int rare)
 	: name(name), price(price), atk(atk), rare(rare)
 	{}
+
+	void SetEmpty() { name = "", price = 0, atk = 0, def = 0, rare = 0; }
+	bool operator==(const ItemInfo& other)
+	{
+		if (name != other.name)
+			return false;
+		return true;
+	}
+
 	string name;
 	int price = 0;
 	int atk = 0;

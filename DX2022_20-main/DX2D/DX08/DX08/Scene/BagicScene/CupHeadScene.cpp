@@ -25,10 +25,10 @@ CupHeadScene::CupHeadScene()
 
 	_button = make_shared<Button>(L"Resource/Texture/UI/Button.png");
 	_button->SetScale({ 0.1f,0.1f });
-	_button->SetPostion(CENTER);
+	_button->SetPosition(CENTER);
 
 	_slider = make_shared<Slider>(Vector2(150, 50));
-	_slider->SetPostion({ CENTER_X, CENTER_Y - 100 });
+	_slider->SetPosition({ CENTER_X, CENTER_Y - 100 });
 
 	// _button->SetEvent(std::bind(&CupHeadScene::Save, this));
 	_renderTarget = make_shared <RenderTarget>();

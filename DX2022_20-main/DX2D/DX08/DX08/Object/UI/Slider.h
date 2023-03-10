@@ -11,7 +11,7 @@ public:
 	void Update();
 	void PostRender();
 
-	void SetPostion(Vector2 pos);
+	void SetPosition(Vector2 pos);
 	void SetScale(Vector2 scale);
 
 	void SetRatio(float value) { _buffer->_data.ratio = value; }

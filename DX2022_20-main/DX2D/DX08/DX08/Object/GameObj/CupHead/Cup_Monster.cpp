@@ -72,7 +72,7 @@ void Cup_Monster::Shot(Vector2 pos)
 
 	Vector2 dir = (pos - _transform->GetPos()).NormalVector2();
 	(*iter)->Enable();
-	(*iter)->SetPostion(_transform->GetWorldPos());
+	(*iter)->SetPosition(_transform->GetWorldPos());
 	(*iter)->Fire(dir);
 
 	_shotCheck = 0.0f;

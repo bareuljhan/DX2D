@@ -8,7 +8,7 @@ public:
 	void Update();
 	void Render();
 
-	void SetPostion(Vector2 pos) { _sprite->GetTransform()->SetPosition(pos); }
+	void SetPosition(Vector2 pos) { _sprite->GetTransform()->SetPosition(pos); }
 	void Fire(Vector2 dir);
 	void Enable();
 	void Disable();

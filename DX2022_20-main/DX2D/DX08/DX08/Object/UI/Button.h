@@ -10,18 +10,22 @@ public:
 	};
 
 	Button(wstring path);
+	Button(Vector2 size);
 	~Button();
 
 	void Update();
 	void PostRender();
 
-	void SetPostion(Vector2 pos);
+	void SetPosition(Vector2 pos);
 	void SetScale(Vector2 scale);
 
 	void SetEvent(CallBack callBack) { _event = callBack; }
 	void SetStringEvent(CallBack_String callBack) { _stringEvent = callBack; }
 
+	void SetParent(shared_ptr<Transform> transform) { GetTransform()->SetParent(transform); }
 private:
+	shared_ptr<Transform> GetTransform();
+
 	State _state;
 	shared_ptr<ButtonBuffer> _buttonBuffer;
 

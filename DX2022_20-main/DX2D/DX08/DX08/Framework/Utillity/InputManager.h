@@ -34,7 +34,7 @@ public:
 		if (_instance != nullptr)
 			return _instance;
 
-		return _instance;
+		return nullptr;
 	}
 
 	void Update();

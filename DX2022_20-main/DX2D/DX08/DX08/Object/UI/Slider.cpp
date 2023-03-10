@@ -40,7 +40,7 @@ void Slider::PostRender()
 	_forward->Render();
 }
 
-void Slider::SetPostion(Vector2 pos)
+void Slider::SetPosition(Vector2 pos)
 {
 	_forward->GetTransform()->SetPosition(pos);
 	_back->GetTransform()->SetPosition(pos);
