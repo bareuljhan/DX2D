@@ -18,12 +18,16 @@ Inventory::Inventory()
 		}
 	}
 
-	_icon = make_shared<ItemIcon>();
+	for (int i = 0; i < 9; i++)
+	{
+		shared_ptr<ItemIconButton> icon = make_shared<ItemIconButton>();
+		icon->GetButton()->SetIntEvent(std::bind(&Inventory::SetCurIndex, this, i));
+		_icons.push_back(icon);
+	}
 	
 	_itemDates.resize(9);
 
-	_itemDates[0] = (DATA_M->GetItemByName("Sword"));
-	_itemDates[1] = (DATA_M->GetItemByName("Shoes"));
+	Set();
 }
 
 Inventory::~Inventory()
@@ -32,9 +36,9 @@ Inventory::~Inventory()
 
 void Inventory::Update()
 {
-	_icon->SetPosition(_slots[0]->GetTransform()->GetWorldPos());
 	_pannel->Update();
-	_icon->Update();
+	for (auto icon : _icons)
+		icon->Update();
 
 	for(auto slot : _slots)
 		slot->Update();
@@ -47,18 +51,124 @@ void Inventory::Render()
 	for (auto slot : _slots)
 		slot->Render();
 
-	_icon->Render();
+	for (auto icon : _icons)
+		icon->Render();
 }
 
 void Inventory::PostRender()
 {
+	Vector2 tempPos = _pannel->GetTransform()->GetWorldPos();
+
 	RECT rect;
 	// 750 170 ... 가로세로 200, 30
-	rect.left = 650;
-	rect.right = 850;
-	rect.bottom = WIN_HEIGHT - 185;
-	rect.top = WIN_HEIGHT - 155;
+	rect.left = tempPos.x - 100;
+	rect.right = tempPos.x + 100;
+
+	rect.bottom = tempPos.y + 185;
+	rect.top = tempPos.y + 155;
 
 	wstring money = to_wstring(_money);
 	DirectWrite::GetInstance()->RenderText(L"Money : " + money, rect, 25.0f, L"Ownglyph 2022 UWY Yoon Yeong");
+
+	if (_curIndex >= 0 && _curIndex < 9)
+	{
+		ItemInfo temp = _itemDates[_curIndex];
+		ImGui::Text(temp.name.c_str());
+		ImGui::SliderInt("index", &_curIndex, 0, 8);
+	}
+}
+
+void Inventory::SetCurIndex(int value)
+{
+	if (value < 0 || value > 9)
+	{
+		_curIndex = -1;
+		return;
+	}
+	if(_curIndex != -1)
+		_slots[_curIndex]->SetRelease();
+	_curIndex = value;
+	_slots[_curIndex]->SetChoice();
+}
+
+void Inventory::Set()
+{
+	Inventory::Update();
+
+	for (int i = 0; i < _icons.size(); i++)
+	{
+		_icons[i]->SetPosition(_slots[i]->GetTransform()->GetWorldPos());
+		_icons[i]->SetItem(_itemDates[i]);
+	}
+}
+
+bool Inventory::AddItem(string name)
+{
+	ItemInfo info = DATA_M->GetItemByName(name);
+	
+	if (info.name == ""|| _money - info.price < 0)
+		return false;
+
+	auto iter = std::find_if(_itemDates.begin(), _itemDates.end(), [](const ItemInfo& info)-> bool
+	{
+		if (info.name == "")
+			return true;
+		return false;
+	});
+
+	if (iter == _itemDates.end())
+		return false;
+	
+	*iter = info;
+	Set();
+
+	return true;
+}
+
+void Inventory::SellItem(string name)
+{
+	auto iter = std::find_if(_itemDates.begin(), _itemDates.end(), [name](const ItemInfo& info)->bool
+	{
+		if (info.name == name)
+			return true;
+		return false;
+	});
+
+	if (iter == _itemDates.end())
+		return;
+
+	AddMoney(iter->price);
+	iter->SetEmpty();
+
+	Set();
+}
+
+void Inventory::SellItem()
+{
+	if (_curIndex < 0 || _curIndex > 8) return;
+
+	ItemInfo& info = _itemDates[_curIndex];
+
+	if (info.name == "") return;
+
+	AddMoney(info.price);
+	info.SetEmpty();
+
+	_curIndex = -1;
+
+	Set();
+}
+
+bool Inventory::AddMoney(UINT amount)
+{
+	_money += amount;
+	return true;
+}
+
+bool Inventory::SubMoney(UINT amount)
+{
+	if (_money - amount < 0) return false;
+	_money -= amount;
+
+	return true;
 }

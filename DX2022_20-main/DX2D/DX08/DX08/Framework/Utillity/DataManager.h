@@ -35,6 +35,8 @@ public:
 
 	const ItemInfo& GetItemByName(string name);
 
+	const unordered_map<string, ItemInfo>& GetItemTable() { return _itemTable; }
+
 private:
 	static DataManager* _instance;
 
